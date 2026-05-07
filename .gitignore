@@ -35,6 +35,4 @@ agentcore/cdk/*.d.ts
 # OS
 .DS_Store
 
-ARCHITECTURE.MD
-DEPLOY.MD 
 AGENTS.MD
