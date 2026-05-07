@@ -83,13 +83,3 @@ Briefings can be in any language; the agent's prompts to the LLM remain in Engli
 The scorer runs against [`data/heuristics.csv`](app/subject_line_optimizer/data/heuristics.csv) — 45 weighted rules across 9 categories (length, urgency, spam_risk, curiosity_triggers, value_signals, personalization, style, audience_fit, brand_voice). Each rule cites a public source. Audience tags are inferred from briefing free-text (campaign_name, objective, audience.description, brand_voice) and applied as per-rule modifiers, so the same rule can lift acquisition while penalizing regulatory.
 
 This is deliberately *not* a research-grade ML model. The article frames it as "a starting point you'd calibrate against your own send data" — a transparent dataset is more pedagogically useful than a black box that hides exactly the part the agent is supposed to learn from.
-
-## Follow-up turns
-
-Within a session, you can ask for variations on the shortlist:
-
-```bash
-agentcore invoke --dev "I like #2 and #4, but they're too long. Give me shorter versions."
-```
-
-The Strands session manager carries the prior conversation, so the LLM already knows the briefing and the candidates. New candidates are scored deterministically through the same in-process scoring path.
