@@ -1,0 +1,17 @@
+{
+  "campaign_name": "Annual Privacy Policy Update Notice",
+  "objective": "Notify all active accounts of an updated privacy policy and prompt them to review the changes before the effective date",
+  "audience": {
+    "description": "All active account holders across regions. Mixed demographics. Compliance-driven communication; engagement matters less than reach and clarity.",
+    "size_estimate": 320000
+  },
+  "offer": null,
+  "brand_voice": "calm, direct, professional, never alarming",
+  "channel": "email",
+  "constraints": {
+    "subject_line_max_length": 70,
+    "avoid_emojis": true,
+    "avoid_words": ["urgent", "warning", "alert", "action required"],
+    "require_words": ["privacy"]
+  }
+}

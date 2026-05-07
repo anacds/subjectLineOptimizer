@@ -1,0 +1,16 @@
+{
+  "campaign_name": "Q3 Lapsed Customer Reactivation",
+  "objective": "Reactivate customers who haven't purchased in 90+ days",
+  "audience": {
+    "description": "Customers who bought 2+ times in 2024 but nothing since. Mid-30s, urban, price-conscious.",
+    "size_estimate": 12000
+  },
+  "offer": "25% loyalty discount, valid 14 days",
+  "brand_voice": "warm, conversational, not cheesy",
+  "channel": "email",
+  "constraints": {
+    "subject_line_max_length": 60,
+    "avoid_emojis": true,
+    "avoid_words": ["urgent", "act now", "last chance"]
+  }
+}

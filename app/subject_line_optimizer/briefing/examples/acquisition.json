@@ -1,0 +1,16 @@
+{
+  "campaign_name": "Spring Launch — New Subscribers",
+  "objective": "Convert newly subscribed prospects to a first purchase within 7 days",
+  "audience": {
+    "description": "Subscribers who joined the list in the last 14 days but haven't purchased. Skewed 25-40, mobile-first, attracted by sustainability messaging.",
+    "size_estimate": 4500
+  },
+  "offer": "Free shipping on first order",
+  "brand_voice": "energetic, modern, slightly playful",
+  "channel": "email",
+  "constraints": {
+    "subject_line_max_length": 50,
+    "avoid_emojis": false,
+    "avoid_words": ["buy now", "limited time"]
+  }
+}

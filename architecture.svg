@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 980" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#374151"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#DC2626"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#A21CAF"/>
+    </marker>
+    <marker id="arrow-violet" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="1280" height="980" fill="#FAFAF9"/>
+
+  <text x="640" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">Subject Line Optimizer — System Architecture</text>
+  <text x="640" y="54" text-anchor="middle" font-size="12" fill="#6B7280">AgentCore Runtime + Strands Agents + AgentCore Memory + Bedrock</text>
+
+  <!-- ======================== TIER 1: Caller ======================== -->
+  <g>
+    <rect x="500" y="80" width="280" height="62" rx="6" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.5"/>
+    <text x="640" y="103" text-anchor="middle" font-size="14" font-weight="700" fill="#111827">Caller</text>
+    <text x="640" y="121" text-anchor="middle" font-size="11" fill="#4B5563">agentcore invoke · boto3 · curl</text>
+    <text x="640" y="135" text-anchor="middle" font-size="10" fill="#6B7280" font-style="italic">HTTPS, session_id + user_id headers</text>
+  </g>
+
+  <!-- Arrow: Caller -> Entrypoint -->
+  <line x1="630" y1="142" x2="630" y2="200" stroke="#374151" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <text x="640" y="170" font-size="11" fill="#374151">POST /invoke {prompt: briefing JSON}</text>
+
+  <!-- Arrow: Entrypoint -> Caller (return, dashed, on left side) -->
+  <path d="M 510 220 L 470 220 L 470 110 L 500 110" fill="none" stroke="#374151" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+  <text x="380" y="166" font-size="10" fill="#374151" font-style="italic">streamed text + final JSON</text>
+
+  <!-- ======================== TIER 2: AgentCore Runtime ======================== -->
+  <g>
+    <rect x="40" y="180" width="1200" height="500" rx="10" fill="#FFF7ED" stroke="#FB923C" stroke-width="2"/>
+    <text x="60" y="204" font-size="13" font-weight="700" fill="#9A3412">AgentCore Runtime — managed AWS service · Python 3.12 · streaming HTTP</text>
+
+    <!-- Entrypoint -->
+    <g>
+      <rect x="430" y="208" width="400" height="68" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+      <text x="630" y="231" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">main.py — @app.entrypoint async invoke()</text>
+      <text x="630" y="249" text-anchor="middle" font-size="11" fill="#78350F">BedrockAgentCoreApp (ASGI)</text>
+      <text x="630" y="265" text-anchor="middle" font-size="10" fill="#78350F" font-style="italic">validates briefing JSON · runs optimization loop · streams progress</text>
+    </g>
+
+    <!-- Arrow: Entrypoint -> Shell -->
+    <line x1="630" y1="276" x2="630" y2="306" stroke="#374151" stroke-width="1.6" marker-end="url(#arrow)"/>
+
+    <!-- ======== Imperative Shell ======== -->
+    <g>
+      <rect x="80" y="306" width="1120" height="135" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="1.5"/>
+      <text x="100" y="328" font-size="13" font-weight="700" fill="#78350F">agent/builder.py — Imperative Shell · Strands wiring</text>
+
+      <!-- Generator Agent: x=100, center=220 -->
+      <g>
+        <rect x="100" y="342" width="240" height="86" rx="4" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.2"/>
+        <text x="220" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#1E40AF">Strands Agent · Generator</text>
+        <text x="220" y="378" text-anchor="middle" font-size="10" fill="#1E3A8A">strands-agents 1.13</text>
+        <text x="220" y="392" text-anchor="middle" font-size="10" fill="#1E3A8A">+ AgentCoreMemorySessionManager</text>
+        <text x="220" y="408" text-anchor="middle" font-size="10" fill="#1E3A8A" font-style="italic">8 candidates / 8 archetypes</text>
+        <text x="220" y="421" text-anchor="middle" font-size="10" fill="#1E3A8A" font-style="italic">N regens per round</text>
+      </g>
+
+      <!-- Critic Agent: x=380, center=500 -->
+      <g>
+        <rect x="380" y="342" width="240" height="86" rx="4" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.2"/>
+        <text x="500" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#1E40AF">Strands Agent · Critic</text>
+        <text x="500" y="378" text-anchor="middle" font-size="10" fill="#1E3A8A">strands-agents 1.13</text>
+        <text x="500" y="392" text-anchor="middle" font-size="10" fill="#1E3A8A">+ AgentCoreMemorySessionManager</text>
+        <text x="500" y="408" text-anchor="middle" font-size="10" fill="#1E3A8A" font-style="italic">guidance per round</text>
+        <text x="500" y="421" text-anchor="middle" font-size="10" fill="#1E3A8A" font-style="italic">2-4 sentences</text>
+      </g>
+
+      <!-- score_candidates: x=660, center=780 -->
+      <g>
+        <rect x="660" y="342" width="240" height="86" rx="4" fill="#E5E7EB" stroke="#374151" stroke-width="1.2"/>
+        <text x="780" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#111827">score_candidates (in-process)</text>
+        <text x="780" y="378" text-anchor="middle" font-size="10" fill="#374151">scoring/score.py · pure Python</text>
+        <text x="780" y="392" text-anchor="middle" font-size="10" fill="#374151">stdlib: csv, re, dataclasses</text>
+        <text x="780" y="408" text-anchor="middle" font-size="10" fill="#4B5563" font-style="italic">heuristics.csv (45 rules)</text>
+        <text x="780" y="421" text-anchor="middle" font-size="10" fill="#4B5563" font-style="italic">cached, no AWS round-trip</text>
+      </g>
+
+      <!-- recall: x=940, center=1060 -->
+      <g>
+        <rect x="940" y="342" width="240" height="86" rx="4" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.2"/>
+        <text x="1060" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#1E40AF">memory.client.recall</text>
+        <text x="1060" y="378" text-anchor="middle" font-size="10" fill="#1E3A8A">bedrock-agentcore SDK</text>
+        <text x="1060" y="392" text-anchor="middle" font-size="10" fill="#1E3A8A">MemoryClient</text>
+        <text x="1060" y="408" text-anchor="middle" font-size="10" fill="#1E3A8A" font-style="italic">retrieve_memories</text>
+        <text x="1060" y="421" text-anchor="middle" font-size="10" fill="#1E3A8A" font-style="italic">facts + preferences</text>
+      </g>
+    </g>
+
+    <!-- Arrow: Shell -> Core -->
+    <line x1="630" y1="441" x2="630" y2="478" stroke="#16A34A" stroke-width="2.6" marker-end="url(#arrow-green)"/>
+    <text x="640" y="465" font-size="11" font-weight="700" fill="#15803D">injects 4 callables + briefing</text>
+
+    <!-- ======== Functional Core ======== -->
+    <g>
+      <rect x="180" y="478" width="900" height="180" rx="8" fill="#BBF7D0" stroke="#16A34A" stroke-width="3"/>
+      <text x="200" y="501" font-size="14" font-weight="700" fill="#14532D">agent/iteration.py — Functional Core</text>
+      <text x="200" y="518" font-size="11" fill="#166534" font-style="italic">Pure Python · stdlib only · zero framework imports</text>
+
+      <text x="630" y="546" text-anchor="middle" font-size="13" font-weight="600" fill="#14532D">run_optimization(briefing, generate, score, critique, recall)</text>
+
+      <text x="630" y="572" text-anchor="middle" font-size="11" fill="#166534">┌──────────────────────────────────────────────────────────────────────┐</text>
+      <text x="630" y="588" text-anchor="middle" font-size="11" fill="#166534">│  Round N: generate(prompt, n) → score(lines, briefing)                │</text>
+      <text x="630" y="603" text-anchor="middle" font-size="11" fill="#166534">│           → sort → prune bottom 40% → critique(scored, dropped)       │</text>
+      <text x="630" y="618" text-anchor="middle" font-size="11" fill="#166534">│  Stop when: top-3 average plateau ‹ ε  OR  round = max_rounds         │</text>
+      <text x="630" y="633" text-anchor="middle" font-size="11" fill="#166534">└──────────────────────────────────────────────────────────────────────┘</text>
+
+      <text x="630" y="652" text-anchor="middle" font-size="11" font-weight="700" fill="#14532D">→ IterationResult { shortlist, rounds, memory_context }</text>
+    </g>
+
+    <!-- Arrow: Core -> Shell return (right curve) -->
+    <path d="M 1080 568 Q 1158 568 1158 410" fill="none" stroke="#16A34A" stroke-width="2.4" marker-end="url(#arrow-green)"/>
+    <text x="1170" y="485" font-size="10" font-weight="700" fill="#15803D">IterationResult</text>
+  </g>
+
+  <!-- ======================== TIER 3: External Services ======================== -->
+  <text x="640" y="710" text-anchor="middle" font-size="13" font-weight="700" fill="#7F1D1D">External AWS Services (managed)</text>
+
+  <!-- Bedrock -->
+  <g>
+    <rect x="220" y="724" width="420" height="135" rx="6" fill="#FAE8FF" stroke="#A21CAF" stroke-width="1.6"/>
+    <text x="430" y="748" text-anchor="middle" font-size="14" font-weight="700" fill="#701A75">Amazon Bedrock</text>
+    <text x="430" y="767" text-anchor="middle" font-size="11" fill="#86198F">Amazon Nova 2 Lite</text>
+    <text x="430" y="783" text-anchor="middle" font-size="11" fill="#86198F">amazon.nova-2-lite-v1:0 via BedrockModel</text>
+    <text x="430" y="804" text-anchor="middle" font-size="10" fill="#86198F" font-style="italic">InvokeModel — generation + critique per round</text>
+    <text x="430" y="819" text-anchor="middle" font-size="10" fill="#86198F" font-style="italic">~4-8 calls per optimization (rounds × 2)</text>
+    <text x="430" y="834" text-anchor="middle" font-size="10" fill="#86198F" font-style="italic">JSON-array output enforced via system prompt</text>
+  </g>
+
+  <!-- Memory -->
+  <g>
+    <rect x="660" y="724" width="400" height="135" rx="6" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.6"/>
+    <text x="860" y="748" text-anchor="middle" font-size="14" font-weight="700" fill="#7F1D1D">AgentCore Memory</text>
+    <text x="860" y="767" text-anchor="middle" font-size="11" fill="#991B1B">SEMANTIC · USER_PREFERENCE · SUMMARIZATION · EPISODIC</text>
+    <text x="860" y="783" text-anchor="middle" font-size="10" fill="#991B1B">Namespaced by actor_id (per-user partitioning)</text>
+    <text x="860" y="804" text-anchor="middle" font-size="10" fill="#991B1B" font-style="italic">create_event ─ raw conversation events</text>
+    <text x="860" y="819" text-anchor="middle" font-size="10" fill="#991B1B" font-style="italic">retrieve_memories ─ extracted patterns</text>
+    <text x="860" y="834" text-anchor="middle" font-size="10" fill="#991B1B" font-style="italic">Async strategy extraction ~60s after session</text>
+  </g>
+
+  <!-- Async extraction -->
+  <g>
+    <rect x="750" y="888" width="220" height="44" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.2" stroke-dasharray="5 3"/>
+    <text x="860" y="906" text-anchor="middle" font-size="11" font-weight="700" fill="#5B21B6">AgentCore Pattern Extraction</text>
+    <text x="860" y="921" text-anchor="middle" font-size="10" fill="#5B21B6" font-style="italic">async ~60s after session ends</text>
+  </g>
+  <line x1="860" y1="859" x2="860" y2="888" stroke="#7C3AED" stroke-width="1.4" stroke-dasharray="3 2" marker-end="url(#arrow-violet)"/>
+  <line x1="820" y1="888" x2="820" y2="859" stroke="#7C3AED" stroke-width="1.4" stroke-dasharray="3 2" marker-end="url(#arrow-violet)"/>
+
+  <!-- ======================== Arrows: Shell agents → External services ======================== -->
+
+  <!-- Generator → Bedrock -->
+  <line x1="220" y1="428" x2="345" y2="724" stroke="#A21CAF" stroke-width="1.6" marker-end="url(#arrow-purple)"/>
+  <text x="120" y="600" font-size="10" fill="#86198F" font-style="italic">InvokeModel</text>
+  <text x="120" y="613" font-size="10" fill="#86198F" font-style="italic">(generate)</text>
+
+  <!-- Critic → Bedrock -->
+  <line x1="500" y1="428" x2="480" y2="724" stroke="#A21CAF" stroke-width="1.6" marker-end="url(#arrow-purple)"/>
+  <text x="510" y="600" font-size="10" fill="#86198F" font-style="italic">InvokeModel</text>
+  <text x="510" y="613" font-size="10" fill="#86198F" font-style="italic">(critique)</text>
+
+  <!-- recall → Memory -->
+  <line x1="1060" y1="428" x2="980" y2="724" stroke="#DC2626" stroke-width="1.6" marker-end="url(#arrow-red)"/>
+  <text x="1075" y="580" font-size="10" fill="#991B1B" font-style="italic">retrieve_memories</text>
+  <text x="1075" y="593" font-size="10" fill="#991B1B" font-style="italic">(per namespace)</text>
+
+  <!-- Strands session managers → Memory (write events) -->
+  <path d="M 340 428 C 340 670 820 660 820 724" fill="none" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="6 3" marker-end="url(#arrow-red)"/>
+  <text x="380" y="690" font-size="10" fill="#991B1B" font-style="italic">create_event (auto-write conversation turns from Strands session manager)</text>
+
+  <!-- ======================== Legend ======================== -->
+  <g transform="translate(40, 945)">
+    <text x="0" y="0" font-size="11" font-weight="700" fill="#111827">Legend</text>
+    <rect x="60" y="-10" width="14" height="14" fill="#BBF7D0" stroke="#16A34A" stroke-width="2.5"/>
+    <text x="80" y="1" font-size="11" fill="#374151">framework-free core</text>
+    <rect x="220" y="-10" width="14" height="14" fill="#FEF3C7" stroke="#B45309"/>
+    <text x="240" y="1" font-size="11" fill="#374151">imperative shell (Strands wiring)</text>
+    <rect x="430" y="-10" width="14" height="14" fill="#DBEAFE" stroke="#2563EB"/>
+    <text x="450" y="1" font-size="11" fill="#374151">Strands SDK component</text>
+    <rect x="610" y="-10" width="14" height="14" fill="#E5E7EB" stroke="#374151"/>
+    <text x="630" y="1" font-size="11" fill="#374151">in-process Python (no AWS)</text>
+    <rect x="790" y="-10" width="14" height="14" fill="#FEE2E2" stroke="#DC2626"/>
+    <text x="810" y="1" font-size="11" fill="#374151">AgentCore service</text>
+    <rect x="930" y="-10" width="14" height="14" fill="#FAE8FF" stroke="#A21CAF"/>
+    <text x="950" y="1" font-size="11" fill="#374151">Bedrock</text>
+    <rect x="1010" y="-10" width="14" height="14" fill="#EDE9FE" stroke="#7C3AED" stroke-dasharray="3 2"/>
+    <text x="1030" y="1" font-size="11" fill="#374151">async (off path)</text>
+    <line x1="1145" y1="-3" x2="1175" y2="-3" stroke="#374151" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="1180" y="1" font-size="11" fill="#374151">return flow</text>
+  </g>
+</svg>

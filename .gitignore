@@ -1,0 +1,40 @@
+# Environment
+.env
+.env.local
+agentcore/.env.local
+agentcore/.cli/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# Node (CDK)
+node_modules/
+agentcore/cdk/cdk.out/
+agentcore/cdk/*.js
+agentcore/cdk/*.d.ts
+!agentcore/cdk/jest.config.js
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+
+ARCHITECTURE.MD
+DEPLOY.MD 
+AGENTS.MD

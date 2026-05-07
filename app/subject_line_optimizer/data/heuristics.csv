@@ -1,0 +1,46 @@
+rule_id,category,pattern,match_type,weight,audience_modifier,note,source_tag
+LEN_SWEET_SPOT_30_50,length,30-50,range,8.0,,Mailchimp 2024 length analysis: 30-50 chars correlates with highest open rates across B2C verticals,mailchimp_2024
+LEN_ACCEPTABLE_20_60,length,20-60,range,4.0,,Acceptable mobile-friendly length window per Litmus 2023,litmus_2023
+LEN_TOO_SHORT_UNDER_15,length,<15,range,-6.0,,Subject lines under 15 chars often look like test sends or spam,litmus_2023
+LEN_TOO_LONG_OVER_70,length,>70,range,-7.0,,Truncation in mobile clients above ~70 chars,gmail_truncation_guide
+LEN_VERY_LONG_OVER_90,length,>90,range,-12.0,,Severe truncation; lower open rates per Campaign Monitor 2023,campaign_monitor_2023
+URGENCY_BASE_LIFT,urgency,urgent|hurry|now|today|fast|quick|expires|deadline|last chance|act now,word_any,3.5,acquisition:+1.0;retention:-2.0;regulatory:-5.0,Urgency words lift acquisition opens but depress retention; regulatory should avoid entirely,return_path_2022
+URGENCY_OVERUSE_PENALTY,urgency,urgent|hurry|now|today|act now|last chance,count_over_2,-4.0,,Two or more urgency tokens reads as spam,return_path_2022
+SPAM_TRIGGER_FREE,spam_risk,free|100% free|risk-free,word_any,-6.0,,Top of every spam-trigger list since 2010,htmlemailcheck
+SPAM_TRIGGER_GUARANTEE,spam_risk,guarantee|guaranteed,word_any,-3.5,,Common spam trigger; flagged by most filter heuristics,htmlemailcheck
+SPAM_TRIGGER_WINNER,spam_risk,winner|congratulations|you won|selected,word_any,-5.5,,Lottery-style triggers correlate strongly with promotions tab routing,gmail_promotions_2023
+SPAM_TRIGGER_CASH,spam_risk,cash|money back|earn $|$$$,word_any,-4.5,,Financial language flagged by Bayesian filters,htmlemailcheck
+SPAM_TRIGGER_ALL_CAPS,spam_risk,"(?:[A-Z]{2,}\s){2,}",regex,-5.0,,Two or more all-caps words in a row reads as shouting,gmail_promotions_2023
+SPAM_TRIGGER_EXCLAIM_MULTI,spam_risk,!!,literal,-3.0,,Multiple exclamation marks correlate with spam,return_path_2022
+CURIOSITY_QUESTION_OPENER,curiosity_triggers,^(what|why|how|where|when|who|did|are|is|can|should|would|could),regex,2.5,b2c:+1.0;b2b:-0.5,Question-led opens 5-10% higher in B2C,himalmedia_questions
+CURIOSITY_INCOMPLETE_PHRASE,curiosity_triggers,you'll never|nobody talks about|the secret|the truth about|what nobody,phrase_any,3.0,acquisition:+1.5;regulatory:-4.0;b2b:-1.5,Incomplete-phrase curiosity strong for acquisition; inappropriate for compliance,buzzfeed_headline_study
+CURIOSITY_NUMBER_LIST,curiosity_triggers,"^\d+\s+(ways|reasons|tips|things|secrets|mistakes)",regex,2.0,,Listicle-style headlines well-known curiosity drivers,buzzfeed_headline_study
+VALUE_PERCENT_OFF,value_signals,"\b\d{1,2}%\s*off\b",regex,3.5,price_conscious:+2.0;premium:-2.0,Specific percent-off lifts price-sensitive segments; depresses premium,kissmetrics_offers
+VALUE_DOLLAR_OFF,value_signals,"\$\d+\s*off",regex,3.0,price_conscious:+1.5;premium:-1.5,Specific dollar-off has same dynamic as percent-off,kissmetrics_offers
+VALUE_FREE_SHIPPING,value_signals,free shipping,phrase,4.0,acquisition:+1.0,Strong universal lift; particularly potent for first-purchase conversion,bigcommerce_shipping
+VALUE_BUNDLE,value_signals,bundle|set|kit|collection,word_any,1.5,cross_sell:+2.0,Bundle language fits cross-sell; mild lift elsewhere,kissmetrics_offers
+VALUE_NEW_ARRIVAL,value_signals,new|just dropped|just in|new arrival|introducing,word_any,2.5,acquisition:+0.5;retention:-1.0,Novelty appeals to acquisition; existing customers fatigue faster,kissmetrics_offers
+LOYALTY_LANGUAGE,value_signals,thank you|loyalty|exclusive|reward|valued|just for you,phrase_any,3.5,retention:+2.5;acquisition:-1.0,Loyalty language strongly preferred for retention/lapsed reactivation,return_path_retention
+PERSONALIZATION_NAME,personalization,"\{first_name\}|\{name\}",regex,4.0,b2c:+1.0;regulatory:-2.0,Name-based personalization strong universal lift; cold for compliance,experian_personalization
+PERSONALIZATION_LOCATION,personalization,"\{city\}|near you",regex,2.5,,Location-based references lift relevance signals,experian_personalization
+PERSONALIZATION_PAST_BEHAVIOR,personalization,for you|your favorite|because you|based on your,phrase_any,3.5,retention:+1.5;cross_sell:+2.0,Behavior-based references strongest in retention and cross-sell contexts,experian_personalization
+EMOJI_ANY,style,"[\U0001F300-\U0001F9FF]|[☀-⛿]",regex,1.5,b2c:+1.0;b2b:-3.0;regulatory:-5.0;premium:-2.0,Emojis lift B2C consumer; inappropriate for B2B/regulatory/premium,experian_emoji
+EMOJI_OVERUSE,style,"(?:[\U0001F300-\U0001F9FF].*){3,}",regex,-3.0,,Three or more emojis reads as low-effort,experian_emoji
+QUESTION_MARK,style,?,literal,1.5,,Mild lift; easier to ignore in mobile preview,himalmedia_questions
+TONE_FORMAL_OPENER,audience_fit,dear|greetings|to whom,word_any,-2.0,b2b:+1.0;regulatory:+3.5,Formal openers cold for consumer; appropriate for B2B/regulatory,nielsen_norman_tone
+TONE_CONVERSATIONAL,audience_fit,hey|hi|psst|quick question,word_any,2.5,b2c:+1.5;b2b:-2.0;regulatory:-4.0,Conversational tone wins for B2C; flagged unprofessional in B2B/regulatory,nielsen_norman_tone
+SOCIAL_PROOF,curiosity_triggers,"join \d+|over \d+|\d+\+ customers|trusted by|loved by",regex,2.5,acquisition:+1.5,Social proof strongest for acquisition where prospect lacks experience with brand,cialdini_influence
+BENEFIT_OUTCOME,value_signals,save|earn|grow|improve|boost|cut|reduce|double,word_any,2.0,b2b:+1.5,Outcome verbs strongest in B2B where ROI framing matters,b2b_subject_line_study
+QUESTION_LEADING,curiosity_triggers,ready to|want to|looking for,phrase_any,2.0,acquisition:+1.0,Soft question framing well-suited to acquisition,himalmedia_questions
+NEGATIVE_FRAMING,style,don't|stop|avoid|never|won't,word_any,2.5,b2b:+1.5,Negative framing creates curiosity; particularly potent in B2B,buzzfeed_headline_study
+TIME_REFERENCE_DAY,style,today|tomorrow|tonight|this week|this weekend,phrase_any,1.5,acquisition:+0.5;regulatory:-2.0,Time references mildly positive; inappropriate when no time pressure exists,return_path_2022
+NUMBER_SPECIFIC,curiosity_triggers,"\b\d{1,3}\b",regex,1.0,b2b:+0.5,Specific numbers feel concrete; mild universal lift,buzzfeed_headline_study
+BRACKET_LABEL,style,"^\[[^\]]+\]",regex,1.5,b2b:+2.0;regulatory:+2.5,Bracket-prefixed labels read as professional B2B/compliance,b2b_subject_line_study
+BRAND_VOICE_MISMATCH_PUSHY,brand_voice,buy now|don't miss out|act fast,phrase_any,-3.0,understated:-3.0;warm:-3.0,Pushy phrases conflict with understated/warm brand voices,nielsen_norman_tone
+AUDIENCE_PRICE_SENSITIVE_DEAL,audience_fit,deal|save|discount|markdown|clearance,word_any,2.0,price_conscious:+3.0;premium:-3.0,Discount language polarizes by audience price-sensitivity,kissmetrics_offers
+AUDIENCE_PREMIUM_LANGUAGE,audience_fit,curated|crafted|select|premium|signature,word_any,2.0,premium:+3.5;price_conscious:-1.5,Premium language polarizes by audience price-sensitivity,kissmetrics_offers
+PRONOUN_YOU,personalization,"\byou\b|\byour\b",regex,1.5,,Direct address mild universal lift,himalmedia_questions
+SCARCITY_LIMITED,urgency,limited time|only today|while supplies,phrase_any,2.0,acquisition:+1.0;retention:-1.5;regulatory:-4.0,Scarcity boosts acquisition; depresses retention; inappropriate for compliance,cialdini_influence
+NAME_DROP_BRAND,style,"from [A-Z][a-z]+|brought to you by",regex,1.0,b2b:+1.0,Mild lift when brand recognition is strong,b2b_subject_line_study
+QUESTION_CLOSED_YES_NO,curiosity_triggers,^(do you|are you|did you|have you),regex,2.0,b2c:+0.5,Yes/no question openers strong B2C performers,himalmedia_questions
+CASUAL_CONTRACTION,style,don't|won't|can't|you're|we're|it's,word_any,1.0,b2c:+0.5;b2b:-0.5,Contractions read as conversational; mild positive for B2C,nielsen_norman_tone

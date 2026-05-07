@@ -1,0 +1,16 @@
+{
+  "campaign_name": "Coffee Subscribers — Add Brewing Equipment",
+  "objective": "Cross-sell brewing equipment to active coffee-bean subscribers",
+  "audience": {
+    "description": "Customers with an active monthly coffee subscription for 3+ months. Premium-leaning, value craft and provenance, age 30-55.",
+    "size_estimate": 7800
+  },
+  "offer": "Curated equipment bundle at 15% off subscriber price",
+  "brand_voice": "knowledgeable, understated, never pushy",
+  "channel": "email",
+  "constraints": {
+    "subject_line_max_length": 65,
+    "avoid_emojis": true,
+    "avoid_words": ["sale", "discount", "deal"]
+  }
+}
